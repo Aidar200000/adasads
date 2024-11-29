@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рандомный контент</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Получите случайный текст или картинку!</h1>
+
+    <!-- Кнопка для получения рандомного контента -->
+    <p><a href="#" id="random-link">Нажми здесь</a></p>
+
+    <!-- Здесь будет отображаться текст или картинка -->
+    <div id="random-content"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#random-link').on('click', function(event) {
+                event.preventDefault();
+                $.get('/random-content', function(data) {
+                    // Определяем, что мы получили — текст или картинку
+                    if (data.startsWith('http') || data.startsWith('/static')) {
+                        // Это картинка
+                        $('#random-content').html(`<img src="${data}" alt="Рандомное изображение" style="max-width: 100%; height: auto;">`);
+                    } else {
+                        // Это текст
+                        $('#random-content').text(data);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
